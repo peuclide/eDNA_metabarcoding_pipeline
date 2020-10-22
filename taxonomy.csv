@@ -1,0 +1,213 @@
+com_name,family,genus,sci_name,fish
+Lake Sturgeon,Acipenseridae,Acipenser,Acipenser.fulvescens,1
+Skipjack Herring,Clupeidae,Alosa,Alosa.chrysochloris,1
+Rock Bass,Centrarchidae,Ambloplites,Ambloplites.rupestris,1
+Black Bullhead,Ictaluridae,Ameiurus,Ameiurus.melas,1
+Brown Bullhead,Ictaluridae,Ameiurus,Ameiurus.nebulosus,1
+Yellow Bullhead,Ictaluridae,Ameiurus,Ameiurus.natalis,1
+Bowfin,Amiidae,Amia,Amia.calva,1
+Western Sand Darter,Percidae,Ammocrypta,Ammocrypta.clara,1
+American Eel,Anguillidae,Anguilla,Anguilla.rostrata,1
+Pirate Perch,Aphredoderidae,Aphredoderus,Aphredoderus.sayanus,1
+Freshwater Drum,Sciaenidae,Aplodinotus,Aplodinotus.grunniens,1
+Central Stoneroller,Cyprinidae,Campostoma,Campostoma.anomalum,1
+Goldfish,Cyprinidae,Carassius,Carassius.auratus,1
+Highfin Carpsucker,Catostomidae,Carpiodes,Carpiodes.velifer,1
+Quillback,Catostomidae,Carpiodes,Carpiodes.cyprinus,1
+River Carpsucker,Catostomidae,Carpiodes,Carpiodes.carpio,1
+White Sucker,Catostomidae,Catostomus,Catostomus.commersonii,1
+Striped Mullet,Mugilidae,Chelon,Chelon.tricuspidens,1
+Southern Redbelly Dace,Cyprinidae,Chrosomus,Chrosomus.erythrogaster,1
+Finescale Dace,Cyprinidae,Chrosomus,Chrosomus.neogaeus,1
+Northern Red Belly Dace,Cyprinidae,Chrosomus,Chrosomus.eos,1
+Cisco,Salmonidae,Coregonus,Coregonus.artedi,1
+Lake Whitefish,Salmonidae,Coregonus,Coregonus.clupeaformis,1
+Shortjaw Cisco,Salmonidae,Coregonus,Coregonus.zenithicus,1
+Banded Sculpin,Cottidae,Cottus,Cottus.carolinae,1
+Mottled Sculpin,Cottidae,Cottus,Cottus.bairdii,1
+Slimy Sculpin,Cottidae,Cottus,Cottus.cognatus,1
+Crystal Darter,Percidae,Crystallaria,Crystallaria.asprella,1
+Grass Carp,Cyprinidae,Ctenopharyngodon,Ctenopharyngodon.idella,1
+Brook Stickleback,Gasterosteidae,Culaea,Culaea.inconstans,1
+Blue Sucker,Catostomidae,Cycleptus,Cycleptus.elongatus,1
+Blacktail Shiner,Cyprinidae,Cyprinella,Cyprinella.venusta,1
+Red Shiner,Cyprinidae,Cyprinella,Cyprinella.lutrensis,1
+Spotfin Shiner,Cyprinidae,Cyprinella,Cyprinella.spiloptera,1
+Common Carp,Cyprinidae,Cyprinus,Cyprinus.carpio,1
+American Gizzard Shad,Clupeidae,Dorosoma,Dorosoma.cepedianum,1
+Threadfin Shad,Clupeidae,Dorosoma,Dorosoma.petenense,1
+Creek Chubsucker,Catostomidae,Erimyzon,Erimyzon.oblongus,1
+Lake Chubsucker,Catostomidae,Erimyzon,Erimyzon.sucetta,1
+Grass Pickerel,Esocidae,Esox,Esox.americanus.vermiculatus,1
+Muskellunge,Esocidae,Esox,Esox.masquinongy,1
+Northern Pike,Esocidae,Esox,Esox.lucius,1
+Silver Phase Northern Pike,Esocidae,Esox,Esox.lucius,1
+Banded Darter,Percidae,Etheostoma,Etheostoma.zonale,1
+Bluntnose Darter,Percidae,Etheostoma,Etheostoma.chlorosomum,1
+Cypress Darter,Percidae,Etheostoma,Etheostoma.proeliare,1
+Fantail Darter,Percidae,Etheostoma,Etheostoma.flabellare,1
+Greenside Darter,Percidae,Etheostoma,Etheostoma.blennioides,1
+Harlequin Darter,Percidae,Etheostoma,Etheostoma.histrio,1
+Iowa Darter,Percidae,Etheostoma,Etheostoma.exile,1
+Johnny Darter,Percidae,Etheostoma,Etheostoma.nigrum,1
+Mud Darter,Percidae,Etheostoma,Etheostoma.asprigene,1
+Orangethroat Darter,Percidae,Etheostoma,Etheostoma.spectabile,1
+Slough Darter,Percidae,Etheostoma,Etheostoma.gracile,1
+Banded Killifish,Fundulidae,Fundulus,Fundulus.diaphanus,1
+Blackspotted Topminnow,Fundulidae,Fundulus,Fundulus.olivaceus,1
+Blackstripe Topminnow,Fundulidae,Fundulus,Fundulus.notatus,1
+Northern Studfish,Fundulidae,Fundulus,Fundulus.catenatus,1
+Starhead Topminnow,Fundulidae,Fundulus,Fundulus.dispar,1
+Western Mosquitofish,Poeciliidae,Gambusia,Gambusia.affinis,1
+Goldeye,Hiodontidae,Hiodon,Hiodon.alosoides,1
+Mooneye,Hiodontidae,Hiodon,Hiodon.tergisus,1
+Brassy Minnow,Cyprinidae,Hybognathus,Hybognathus.hankinsoni,1
+Mississippi Silvery Minnow,Cyprinidae,Hybognathus,Hybognathus.nuchalis,1
+Western Silvery Minnow,Cyprinidae,Hybognathus,Hybognathus.argyritis,1
+Mississippi Silvery,Cyprinidae,Hybognathus,Hybognathus.nuchalis,1
+Bigeye Chub,Cyprinidae,Hybopsis,Hybopsis.amblops,1
+Bigmouth Shiner,Cyprinidae,Hybopsis,Hybopsis.dorsalis,1
+Pallid Shiner,Cyprinidae,Hybopsis,Hybopsis.amnis,1
+Northern Hogsucker,Catostomidae,Hypentelium,Hypentelium.nigricans,1
+Bighead Carp,Cyprinidae,Hypophthalmichthys,Hypophthalmichthys.nobilis,1
+Silver Carp,Cyprinidae,Hypophthalmichthys,Hypophthalmichthys.molitrix,1
+Silver Lamprey,Petromyzontidae,Ichthyomyzon,Ichthyomyzon.unicuspis,1
+Chestnut Lamprey,Petromyzontidae,Ichthyomyzon,Ichthyomyzon.castaneus,1
+Blue Catfish,Ictaluridae,Ictalurus,Ictalurus.furcatus,1
+Channel Catfish,Ictaluridae,Ictalurus,Ictalurus.punctatus,1
+Bigmouth Buffalo,Cyprinidae,Ictiobus,Ictiobus.cyprinellus,1
+Black Buffalo,Cyprinidae,Ictiobus,Ictiobus.niger,1
+Smallmouth Buffalo,Cyprinidae,Ictiobus,Ictiobus.bubalus,1
+Brook Silverside,Atherinopsidae,Labidesthes,Labidesthes.sicculus,1
+American Brook Lamprey,Petromyzontidae,Lampetra,Lampetra.appendix,1
+Longnose Gar,Lepisosteidae,Lepisosteus,Lepisosteus.osseus,1
+Shortnose Gar,Lepisosteidae,Lepisosteus,Lepisosteus.platostomus,1
+Spotted Gar,Lepisosteidae,Lepisosteus,Lepisosteus.oculatus,1
+Bluegill,Centrarchidae,Lepomis,Lepomis.macrochirus,1
+Green Sunfish,Centrarchidae,Lepomis,Lepomis.cyanellus,1
+Longear Sunfish,Centrarchidae,Lepomis,Lepomis.megalotis,1
+Pumpkinseed,Centrarchidae,Lepomis,Lepomis.gibbosus,1
+Redear Sunfish,Centrarchidae,Lepomis,Lepomis.microlophus,1
+Redspotted Sunfish,Centrarchidae,Lepomis,Lepomis.miniatus,1
+Warmouth,Centrarchidae,Lepomis,Lepomis.gulosus,1
+Burbot,Lotidae,Lota,Lota.lota,1
+Common Shiner,Cyprinidae,Luxilus,Luxilus.cornutus,1
+Striped Shiner,Cyprinidae,Luxilus,Luxilus.chrysocephalus,1
+Sicklefin Chub,Cyprinidae,Macrhybopsis,Macrhybopsis.meeki,1
+Silver Chub,Cyprinidae,Macrhybopsis,Macrhybopsis.storeriana,1
+Speckled Chub,Cyprinidae,Macrhybopsis,Macrhybopsis.aestivalis,1
+Sturgeon Chub,Cyprinidae,Macrhybopsis,Macrhybopsis.gelida,1
+Inland Silverside,Atherinopsidae,Menidia,Menidia.beryllina,1
+Largemouth Bass,Centrarchidae,Micropterus,Micropterus.salmoides,1
+Smallmouth Bass,Centrarchidae,Micropterus,Micropterus.dolomieu,1
+Spotted Bass,Centrarchidae,Micropterus,Micropterus.punctulatus,1
+Spotted Sucker,Catostomidae,Minytrema,Minytrema.melanops,1
+Striped Bass,Moronidae,Morone,Morone.saxatilis,1
+White Bass,Moronidae,Morone,Morone.chrysops,1
+White Perch,Moronidae,Morone,Morone.americana,1
+Yellow Bass,Moronidae,Morone,Morone.mississippiensis,1
+Black Redhorse,Catostomidae,Moxostoma,Moxostoma.duquesnii,1
+Golden Redhorse,Catostomidae,Moxostoma,Moxostoma.erythrurum,1
+Greater Redhorse,Catostomidae,Moxostoma,Moxostoma.valenciennesi,1
+River Redhorse,Catostomidae,Moxostoma,Moxostoma.carinatum,1
+Shorthead Redhorse,Catostomidae,Moxostoma,Moxostoma.macrolepidotum,1
+Silver Redhorse,Catostomidae,Moxostoma,Moxostoma.anisurum,1
+Black Carp,Cyprinidae,Mylopharyngodon,Mylopharyngodon.piceus,1
+Round Goby,Gobiidae,Neogobius,Neogobius.melanostomus,1
+Hornyhead Chub,Cyprinidae,Nocomis,Nocomis.biguttatus,1
+River Chub,Cyprinidae,Nocomis,Nocomis.micropogon,1
+Golden Shiner,Cyprinidae,Notemigonus,Notemigonus.crysoleucas,1
+Bigeye Shiner,Cyprinidae,Notropis,Notropis.boops,1
+Blackchin Shiner,Cyprinidae,Notropis,Notropis.heterodon,1
+Blacknose Shiner,Cyprinidae,Notropis,Notropis.heterolepis,1
+Channel Shiner,Cyprinidae,Notropis,Notropis.wickliffi,1
+Emerald Shiner,Cyprinidae,Notropis,Notropis.atherinoides,1
+Ghost Shiner,Cyprinidae,Notropis,Notropis.buchanani,1
+Mimic Shiner,Cyprinidae,Notropis,Notropis.volucellus,1
+Ozark Minnow,Cyprinidae,Notropis,Notropis.nubilus,1
+River Shiner,Cyprinidae,Notropis,Notropis.blennius,1
+Rosyface Shiner,Cyprinidae,Notropis,Notropis.rubellus,1
+Sand Shiner,Cyprinidae,Notropis,Notropis.stramineus,1
+Silverband Shiner,Cyprinidae,Notropis,Notropis.shumardi,1
+Silverjaw Minnow,Cyprinidae,Notropis,Notropis.buccata,1
+Spottail Shiner,Cyprinidae,Notropis,Notropis.hudsonius,1
+Wedgespot Shiner,Cyprinidae,Notropis,Notropis.greenei,1
+Weed Shiner,Cyprinidae,Notropis,Notropis.texanus,1
+Freckled Madtom,Cyprinidae,Noturus,Noturus.nocturnus,1
+Stonecat,Cyprinidae,Noturus,Noturus.flavus,1
+Tadpole Madtom,Cyprinidae,Noturus,Noturus.gyrinus,1
+Pugnose Minnow,Cyprinidae,Opsopoeodus,Opsopoeodus.emiliae,1
+Rainbow Smelt,Osmeridae,Osmerus,Osmerus.mordax,1
+Yellow Perch,Percidae,Perca,Perca.flavescens,1
+Blackside Darter,Percidae,Percina,Percina.maculata,1
+Dusky Darter,Percidae,Percina,Percina.sciera,1
+Logperch,Percidae,Percina,Percina.caprodes,1
+River Darter,Percidae,Percina,Percina.shumardi,1
+Slenderhead Darter,Percidae,Percina,Percina.phoxocephala,1
+Common Logperch,Percidae,Percina,Percina.caprodes,1
+Trout-Perch,Percopsidae,Percopsis,Percopsis.omiscomaycus,1
+Suckermouth Minnow,Cyprinidae,Phenacobius,Phenacobius.mirabilis,1
+Bluntnose Minnow,Cyprinidae,Pimephales,Pimephales.notatus,1
+Bullhead Minnow,Cyprinidae,Pimephales,Pimephales.vigilax,1
+Fathead Minnow,Cyprinidae,Pimephales,Pimephales.promelas,1
+Guppy,Poeciliidae,Poecilia,Poecilia.reticulata,1
+Paddlefish,Polyodontidae,Polyodon,Polyodon.spathula,1
+Black Crappie,Centrarchidae,Pomoxis,Pomoxis.nigromaculatus,1
+White Crappie,Centrarchidae,Pomoxis,Pomoxis.annularis,1
+Ninespine Stickleback,Gasterosteidae,Pungitius,Pungitius.pungitius,1
+Flathead Catfish,Ictaluridae,Pylodictis,Pylodictis.olivaris,1
+Blacknose Dace,Cyprinidae,Rhinichthys,Rhinichthys.atratulus,1
+Brown Trout,Salmonidae,Salmo,Salmo.trutta,1
+Lake Trout,Salmonidae,Salvelinus,Salvelinus.namaycush,1
+Sauger,Percidae,Sander,Sander.canadensis,1
+Walleye,Percidae,Sander,Sander.vitreus,1
+Shovelnose Sturgeon,Acipenseridae,Scaphirhynchus,Scaphirhynchus.platorynchus,1
+Rudd,Cyprinidae,Scardinius,Scardinius.erythrophthalmus,1
+Creek Chub,Cyprinidae,Semotilus,Semotilus.atromaculatus,1
+Central Mud Minnow,Umbridae,Umbra,Umbra.limi,1
+Splake,Salmonidae,Salvelinus,Salvelinus,1
+"Spottail Shiner, Emerald Shiner Hybrid",Cyprinidae,Notropis,Notropis,1
+"Bluegill, Orange Spotted Sunfish Hybrid",Centrarchidae,Lepomis,Lepomis,1
+"Bluegill, Warmouth Hybrid",Centrarchidae,Lepomis,Lepomis,1
+"Green Sunfish, Orange Spotted Sunfish Hybrid",Centrarchidae,Lepomis,Lepomis,1
+"Green Sunfish, Warmouth Hybrid",Centrarchidae,Lepomis,Lepomis,1
+Orange Spotted Sunfish,Centrarchidae,Lepomis,Lepomis,1
+"Pumpkinseed, Bluegill Hybrid",Centrarchidae,Lepomis,Lepomis,1
+"Pumpkinseed, Orange Spotted Sunfish Hybrid",Centrarchidae,Lepomis,Lepomis,1
+"Pumpkinseed, Warmouth Hybrid",Centrarchidae,Lepomis,Lepomis,1
+"Striped Bass, White Bass Hybrid",Moronidae,Morone,Morone,1
+Cyprinid Hybrid,Cyprinidae,Cyprinidae,Cyprinidae,1
+European bison,,,Bison.bonasus,0
+cattle,,,Bos.taurus,0
+gray wolf,,,Canis.lupus,0
+American beaver,,,Castor.canadensis,0
+red deer,,,Cervus.elaphus,0
+Common snapping turtle,,,Chelydra.serpentina,0
+Painted turtle,,,Chrysemys.picta,0
+loon,,,Gavia,0
+turtle,,,Graptemys,0
+human,,,Homo.sapiens,0
+turkey,,,Meleagris.gallopavo,0
+Chinese ferret-badger,,,Melogale.moschata,0
+no_hits,,,no_hits,0
+deer,,,Odocoileus,0
+raccoon,,,Procyon.lotor,0
+gray squirrel,,,Sciurus.carolinensis,0
+pig,,,Sus.scrofa,0
+eastern cottontail,,,Sylvilagus.floridanus,0
+eastern chipmunk,,,Tamias.striatus,0
+red-eared slider turtle,,,Trachemys.scripta,0
+duck,,,Aix,0
+Ameiurus,Ictaluridae,Ameiurus,Ameiurus,1
+asian_carp,Cyprinidae,asian_carp,asian_carp,1
+suckers,Catostomidae,Catostomidae,Catostomidae,1
+Coregonus,Salmonidae,Coregonus,Coregonus,1
+Hiodon,Hiodontidae,Hiodon,Hiodon,1
+bullhead catfishes,Ictaluridae,Ictaluridae,Ictaluridae,1
+Ictalurus,Ictaluridae,Ictalurus,Ictalurus,1
+Lepisosteus,Lepisosteidae,Lepisosteus,Lepisosteus,1
+Macrhybopsis,Cyprinidae,Macrhybopsis,Macrhybopsis,1
+Moxostoma,Catostomidae,Moxostoma,Moxostoma,1
+Notropis,Cyprinidae,Notropis,Notropis,1
+Percina,Percidae,Percina,Percina,1
+Rainbow Trout,Salmonidae,Oncorhynchus,Oncorhynchus.mykiss,1

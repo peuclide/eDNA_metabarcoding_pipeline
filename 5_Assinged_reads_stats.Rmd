@@ -1,0 +1,854 @@
+---
+title: "Assigned reads summary Gehri-Larson pipeline"
+author: "Peter Euclide"
+date: "7/15/2020"
+output: html_document
+---
+
+
+
+
+## View summary of DADA2 filtering paremeters
+
+
+```{r sequence summary}
+library(ggridges)
+library(tidyverse)
+library(ggpubr)
+library(ggsci)
+dada2_tracks <- read.csv("./tracked_dada2_filters.csv")
+
+
+# find blanks/controls
+toMatch_blanks <- c("BLK", "BLANK", "blank","blk", "Blank", "Blk", "FB", "fb")
+toMatch_mock <- c("MOCK", "mock", "Mock")
+toMatch_NTC <- c("NTC", "ntc")
+toMatch_ExtNeg <- c("ExtNeg", "extneg")
+field_blank <- grep(paste(toMatch_blanks, collapse = "|" ), dada2_tracks$SampleName, value = T)
+mock_com <- grep(paste(toMatch_mock, collapse = "|" ), dada2_tracks$SampleName, value = T)
+NTC <- grep(paste(toMatch_NTC, collapse = "|" ), dada2_tracks$SampleName, value = T)
+ExtNeg <- grep(paste(toMatch_ExtNeg, collapse = "|" ), dada2_tracks$SampleName, value = T)
+
+# create long file of just sample data
+sample_tracks <- dada2_tracks %>% filter(!(SampleName %in% c(field_blank, mock_com, NTC, ExtNeg))) 
+
+# create long file of just control data
+control_tracks <- dada2_tracks %>% filter(SampleName %in% c(field_blank, mock_com, NTC, ExtNeg)) 
+
+### make some summaries of read counts for section 1:
+
+summary(sample_tracks)
+summary(control_tracks)
+summary(control_tracks %>% filter(SampleName%in% c(NTC, ExtNeg)))
+
+## percent loss of reads
+sample_tracks %>% mutate(loss = input-nonchim, ploss = (input-nonchim)/input) %>% summarise(MeanLoss = mean(loss/input), medianLoss=median(loss/input), meanploss=mean(ploss))
+control_tracks %>% mutate(loss = input-nonchim, ploss = (input-nonchim)/input) %>% summarise(MeanLoss = mean(loss/input), medianLoss=median(loss/input), meanploss=mean(ploss))
+
+```
+
+
+### Figure 1
+
+```{r}
+
+## ggridges plot
+y <- sample_tracks %>%  gather(.,"step", "reads", 2:(which(colnames(sample_tracks)=="SampleName")-1)) %>% 
+  filter(step%in% c("input", "nonchim", "assignedReads"))
+
+x <- control_tracks %>% filter(!Lake== is.na(Lake)) %>%  gather(.,"step", "reads", 2:(which(colnames(sample_tracks)=="SampleName")-1)) %>% 
+  filter(step%in% c("input", "nonchim", "assignedReads")) 
+
+
+lab_controls <- control_tracks %>% filter(is.na(Lake), !SampleName %in% mock_com) %>% summarise(meanInput=mean(input), meanNonchim=mean(nonchim), meanAss=mean(assignedReads))
+
+y$step <- factor(y$step, levels = c("input" , "nonchim","assignedReads"))
+x$step <- factor(x$step, levels = c("input" , "nonchim","assignedReads"))
+
+thresh2 <- data.frame(Lake = unique(x$Lake), x =c(17, 0, 1569, 0, 0, 25,21,165,0))
+
+ggplot(y, aes(x=reads, y = Lake, fill=step))+
+  geom_density_ridges(alpha =0.4, scale =1)+
+  geom_point(data=x, aes(x=reads, y = Lake, color = step), shape =17, alpha = .8)+
+  lims(x=c(0,6000))+
+  scale_fill_jama(labels=c("raw reads", "filtered reads", "assgined reads"))+
+  scale_color_jama(labels=c("raw reads", "filtered reads", "assgined reads"))+
+  theme_bw()+
+  theme(text=element_text(size = 16), legend.position = "top")
+#ggsave("./figures/figure_1_b.tiff", height = 10, width = 6)
+
+
+
+  
+```
+
+
+## Compare known and eDNA communtities
+
+This section Uses detection matricies which are reported as supplementary tables 2 and 3 to analyze data.  
+
+```{r compare trad and edna}
+
+trad <- read.csv("./TableS_2.csv")
+edna_norm <- read.csv("./TableS_3.csv")
+
+## remove hybrids from trad data
+
+trad <- trad %>% filter(!com_name %in% grep("Hybrid", trad$com_name, value =T))
+
+
+## known richness
+fun=function(x){sum(x>0)}
+known_rich=apply(trad[,c(5:13)], 2, fun)
+#raw_rich=apply(edna_raw[,c(5:13)], 2, fun)
+norm_rich=apply(edna_norm[,c(5:13)], 2, fun)
+
+rbind(known_rich, norm_rich)
+
+trad$data="trad"
+edna_norm$data="norm"
+#edna_raw$data="raw"
+
+comb <- rbind(trad, edna_norm)
+
+comb_long <- comb %>% pivot_longer(colnames(comb[,5:13]), "Lake") 
+  
+
+```
+
+
+
+## Obj. 1: Intersection between eDNA species detection and known fish communities 
+
+```{r  propotion of intersect}
+#### Look at proportion of taxa that are found in both eDNA and known samples
+
+
+lake <- NULL
+sp_known <- NULL
+sp_dna <- NULL
+ge_known <- NULL
+ge_dna <- NULL
+fa_known <- NULL
+fa_dna <- NULL
+
+for(l in colnames(trad[5:13])){
+  norm <- comb_long %>% filter(data == "norm", Lake == l, value >0)
+  known <- comb_long %>% filter(data == "trad", Lake == l, value >0)
+  sp_known <- c(sp_known,length(unique(known$species)))
+  sp_dna <- c(sp_dna,length(intersect(unique(norm$species), unique(known$species))))
+  ge_known <- c(ge_known,length(unique(known$genus)))
+  ge_dna <- c(ge_dna,length(intersect(unique(norm$genus), unique(known$genus))))
+  fa_known <- c(fa_known,length(unique(known$family)))
+  fa_dna <- c(fa_dna,length(intersect(unique(norm$family), unique(known$family))))
+  # tmp_sp <- c(length(intersect(unique(norm$species), unique(known$species))), length(unique(known$species)))
+  # tmp2_sp <- c(tmp2_sp, tmp_sp)
+  # tmp_gen <- length(intersect(unique(norm$genus), unique(known$genus)))/length(unique(known$genus))
+  # tmp2_gen <- c(tmp2_gen, tmp_gen)
+  # tmp_fam <- length(intersect(unique(norm$family), unique(known$family)))/length(unique(known$family))
+  # tmp2_fam <- c(tmp2_fam, tmp_fam)
+  lake <- c(lake, l)
+}
+
+
+## Table 2
+df <- data.frame(lake, sp_known, sp_dna, ge_known, ge_dna, fa_known, fa_dna)
+(df2 <- df %>% mutate(sp_per=sp_dna/sp_known, ge_per=ge_dna/ge_known, fa_per=fa_dna/fa_known))
+
+mean(df2$sp_per)
+mean(df2$ge_per)
+mean(df2$fa_per)
+
+## novel eDNA detections
+
+lake <- NULL
+sp_known <- NULL
+sp_dna <- NULL
+ge_known <- NULL
+ge_dna <- NULL
+fa_known <- NULL
+fa_dna <- NULL
+
+mybiglist <- list()
+for(l in colnames(trad[5:13])){
+  norm <- comb_long %>% filter(data == "norm", Lake == l, value >0)
+  known <- comb_long %>% filter(data == "trad", Lake == l, value >0)
+  #sp_known <- c(sp_known,length(unique(known$species)))
+  sp_dna <- setdiff(unique(norm$species), unique(known$species))
+ # ge_known <- c(ge_known,length(unique(known$genus)))
+  ge_dna <- setdiff(unique(norm$genus), unique(known$genus))
+  #fa_known <- c(fa_known,length(unique(known$family)))
+  fa_dna <- setdiff(unique(norm$family), unique(known$family))
+  tmp <- list(sp_dna, ge_dna, fa_dna)
+  mybiglist[[l]] <- tmp
+  # tmp_sp <- c(length(intersect(unique(norm$species), unique(known$species))), length(unique(known$species)))
+  # tmp2_sp <- c(tmp2_sp, tmp_sp)
+  # tmp_gen <- length(intersect(unique(norm$genus), unique(known$genus)))/length(unique(known$genus))
+  # tmp2_gen <- c(tmp2_gen, tmp_gen)
+  # tmp_fam <- length(intersect(unique(norm$family), unique(known$family)))/length(unique(known$family))
+  # tmp2_fam <- c(tmp2_fam, tmp_fam)
+}
+
+## Table 2
+# df1 <- data.frame(lake, sp_known, sp_dna, ge_known, ge_dna, fa_known, fa_dna)
+# df1 %>% mutate(sp_per=sp_dna/sp_known, ge_per=ge_dna/ge_known, fa_per=fa_dna/fa_known)
+
+```
+
+
+```{r detection of common species}
+
+common_sp <- comb_long %>% filter(data== "trad") %>% group_by(Lake) %>% filter(value == max(value))
+
+
+lake <- NULL
+sp_known <- NULL
+sp_dna <- NULL
+ge_known <- NULL
+ge_dna <- NULL
+fa_known <- NULL
+fa_dna <- NULL
+
+l="Trout"
+for(l in colnames(trad[5:13])){
+  norm <- comb_long %>% filter(species %in% common_sp$species, data == "norm", Lake == l, value >0)
+  known <- common_sp %>% filter(species %in% common_sp$species,data == "trad", Lake == l, value >0)
+  sp_known <- c(sp_known,length(unique(known$species)))
+  sp_dna <- c(sp_dna,length(intersect(unique(norm$species), unique(known$species))))
+  ge_known <- c(ge_known,length(unique(known$genus)))
+  ge_dna <- c(ge_dna,length(intersect(unique(norm$genus), unique(known$genus))))
+  fa_known <- c(fa_known,length(unique(known$family)))
+  fa_dna <- c(fa_dna,length(intersect(unique(norm$family), unique(known$family))))
+  lake <- c(lake, l)
+}
+
+
+## Table 2 commons
+df <- data.frame(lake, sp_known, sp_dna, ge_known, ge_dna, fa_known, fa_dna)
+(df2 <- df %>% mutate(sp_per=sp_dna/sp_known, ge_per=ge_dna/ge_known, fa_per=fa_dna/fa_known) )
+mean(df2$sp_per)
+mean(df2$ge_per)
+mean(df2$fa_per)
+
+
+```
+
+
+## Obj 2. Efficiency of eDNA among systems with different known community compositions 
+```{r NMDS, fig.height=10, fig.width=10}
+
+library(vegan)
+
+
+## functions:
+
+# function to convert a detection matrix into a wide NMDS matrix ------------
+lakes <- c("Crystal", "McDermott", "Mendota", "Sparkling", "Trout", "Trout_Bog" ,"UMR_13" ,"UMR_19" ,"Wingra")
+
+det2nmds <- function(x, name){
+  x <- x[c(rowSums(x[,lakes]))>0,]
+  # remove any genus, or family level IDs
+  x <- x %>% filter(species %in% grep(".", fixed=T, x$species, value = T)) %>% select(-c("com_name", "family", "genus", "Trout_Bog"))
+  # Transpose
+  x <- data.frame(t(x ))
+  colnames(x) <- x[1,]
+  x <- x[-1,]
+  row.names(x) <- paste0(name, row.names(x))
+  x
+  
+}
+
+
+
+det2nmds2 <- function(x, name){
+  x <- x[c(rowSums(x[,lakes]))>0,]
+  # remove any genus, or family level IDs
+  x <- x %>% select(-c( "Trout_Bog"))
+  # Transpose
+  x <- data.frame(t(x ))
+  colnames(x) <- x[1,]
+  x <- x[-1,]
+  row.names(x) <- paste0(name, row.names(x))
+  x
+  
+}
+
+#  function to combine matricies --------------
+combineMatrix <- function(mat1, mat2=NULL, mat3=NULL){
+  comb <- bind_rows(mat1, mat2, mat3)
+  rows <- rownames(comb)
+  comb <- data.frame(apply(comb, 2, as.numeric))
+  comb <- comb %>% mutate_if(is.numeric, ~1*(.>0))
+  comb[is.na(comb)] <- 0
+  rownames(comb) <- rows
+  comb
+}
+
+
+# funciton to make biplots---------------
+PlotNMDS <- function(x, title=NULL) {
+  ordiplot(x,type="n", main = title)
+  ordihull(x, groups=treat, draw="polygon",col=c("orange","steelblue"),label=F, alpha = .3)
+  orditorp(x,display="species",col="black",air=0.01)
+  orditorp(x,display="sites",col=c(rep("steelblue",8), rep("orange",8)),
+         air=0.01,cex=1.25) 
+}
+
+
+###  Species level NMDS -----------------------------------------------
+
+
+## complete known dataset ----------------
+known_all <- read.csv("./TableS_3.csv")
+known_all_nmds <- det2nmds(known_all, "known_all_")
+
+
+## complete eDNA dataset ----------------
+eDNA_all <- read.csv("./TableS_2.csv")
+eDNA_all_nmds <- det2nmds(eDNA_all, "eDNA_")
+
+###  genus level NMDS -----------------------------------------------
+
+
+known_all_gen <- known_all %>% group_by(genus) %>% filter(genus!="unk")%>%summarise(Crystal=sum(Crystal),McDermott =sum(McDermott ),Mendota  =sum(Mendota ),Sparkling =sum(Sparkling ),Trout =sum(Trout ),Trout_Bog =sum(Trout_Bog ),UMR_13  =sum(UMR_13  ),UMR_19   =sum(UMR_19  ),Wingra =sum(Wingra ))
+known_all_gen_nmds <- det2nmds2(known_all_gen, "known_all_")
+
+
+eDNA_all_gen <- eDNA_all %>% group_by(genus) %>% filter(genus!="unk")%>%summarise(Crystal=sum(Crystal),McDermott =sum(McDermott ),Mendota  =sum(Mendota ),Sparkling =sum(Sparkling ),Trout =sum(Trout ),Trout_Bog =sum(Trout_Bog ),UMR_13  =sum(UMR_13  ),UMR_19   =sum(UMR_19  ),Wingra =sum(Wingra ))
+eDNA_all_gen_nmds <- det2nmds2(eDNA_all_gen, "eDNA_all_")
+
+
+###  family level NMDS -----------------------------------------------
+
+
+known_all_fam <- known_all %>% group_by(family) %>% filter(family!="unk")%>%summarise(Crystal=sum(Crystal),McDermott =sum(McDermott ),Mendota  =sum(Mendota ),Sparkling =sum(Sparkling ),Trout =sum(Trout ),Trout_Bog =sum(Trout_Bog ),UMR_13  =sum(UMR_13  ),UMR_19   =sum(UMR_19  ),Wingra =sum(Wingra ))
+known_all_fam_nmds <- det2nmds2(known_all_fam, "known_all_")
+
+
+eDNA_all_fam <- eDNA_all %>% group_by(family) %>% filter(family!="unk")%>%summarise(Crystal=sum(Crystal),McDermott =sum(McDermott ),Mendota  =sum(Mendota ),Sparkling =sum(Sparkling ),Trout =sum(Trout ),Trout_Bog =sum(Trout_Bog ),UMR_13  =sum(UMR_13  ),UMR_19   =sum(UMR_19  ),Wingra =sum(Wingra ))
+eDNA_all_fam_nmds <- det2nmds2(eDNA_all_fam, "eDNA_all_")
+
+
+
+
+### create NMBDS matrix
+
+nmds_mat_all_sp <- combineMatrix(eDNA_all_nmds, known_all_nmds)
+nmds_mat_all_ge <- combineMatrix(eDNA_all_gen_nmds, known_all_gen_nmds)
+nmds_mat_all_fam <- combineMatrix(eDNA_all_fam_nmds, known_all_fam_nmds)
+
+
+####### Run  NMDS  ------------
+
+
+comb_NMDS_sp_all=metaMDS(nmds_mat_all_sp,k=2,trymax=100)
+comb_NMDS_ge_all=metaMDS(nmds_mat_all_ge,k=2,trymax=100)
+comb_NMDS_fa_all=metaMDS(nmds_mat_all_fam,k=2,trymax=100)
+
+
+## Calculate p value
+# set treaments
+treat=c(rep("eDNA", 8),
+        rep("known", 8))
+
+get_p <- function(x){
+  x$grp <- treat
+  ano = anosim(x[,1:(ncol(x)-2)], x$grp, distance = "bray", permutations = 9999)
+  ano$signif
+}
+
+bigList <- list(nmds_mat_all_sp,nmds_mat_all_ge,nmds_mat_all_fam)
+
+pVals <- lapply(bigList, get_p)
+unlist(pVals)
+
+
+
+# comb$grp <- c(rep("Know",7), rep("edna",7))
+# ano = anosim(comb[,1:(ncol(comb)-2)], comb$grp, distance = "bray", permutations = 9999)
+
+# goodness(comb_NMDS)
+# stressplot(comb_NMDS)
+
+## plot ordination
+
+
+treat <- rep()
+
+par(mfrow=c(3,2))
+
+#PlotNMDS(comb_NMDS_sp_2018, "2018 catch - species")
+PlotNMDS(comb_NMDS_sp_all, "2014-2018 catch - species")
+
+#PlotNMDS(comb_NMDS_ge_2018, "2018 catch - genus")
+PlotNMDS(comb_NMDS_ge_all, "2014-2018 catch - genus")
+
+#PlotNMDS(comb_NMDS_fa_2018, "2018 catch - family")
+PlotNMDS(comb_NMDS_fa_all, "2014-2018 catch - family")
+
+
+
+```
+
+
+
+### FIgure 2 NMDS start:
+
+### SP NMDS
+
+```{r NMDS ggplot - species, fig.width=8}
+treat1=c(rep("eDNA", 8),
+        rep("known", 8))
+treat2 <- c("Oligotrophic","Mesotrophic", "Eutrophic", "Oligotrophic", "Oligotrophic", "River", "River", "Eutrophic","Oligotrophic","Mesotrophic", "Eutrophic", "Oligotrophic", "Oligotrophic", "River", "River", "Eutrophic")
+
+
+
+
+
+data.scores <- as.data.frame(scores(comb_NMDS_sp_all))  #Using the scores function from vegan to extract the site scores and convert to a data.frame
+data.scores$site <- gsub(".*_", "" ,rownames(data.scores))   # create a column of site names, from the rownames of data.scores
+data.scores$site[c(6,7,14,15)] <- c("UMR-13", "UMR-19", "UMR-13", "UMR-19")
+data.scores$Dataset <- treat1  #  add the grp variable created earlier
+data.scores$System <- treat2  #  add the grp variable created earlier
+
+#head(data.scores)  #look at the data
+
+
+
+#### create ellipse
+NMDS.mean=aggregate(data.scores[,1:2],list(group=treat1),mean)
+
+# function to create ellipse
+ veganCovEllipse<-function (cov, center = c(0, 0), scale = 1, npoints = 100) 
+  {
+    theta <- (0:npoints) * 2 * pi/npoints
+    Circle <- cbind(cos(theta), sin(theta))
+    t(center + scale * t(Circle %*% chol(cov)))
+  }
+
+
+df_ell <- data.frame()
+  for(g in unique(data.scores$Dataset)){
+    df_ell <- rbind(df_ell, cbind(as.data.frame(with(data.scores[data.scores$Dataset==g,],
+                    veganCovEllipse(cov.wt(cbind(NMDS1,NMDS2),wt=rep(1/length(NMDS1),length(NMDS1)))$cov,center=c(mean(NMDS1),mean(NMDS2)))))
+                    ,Dataset=g))
+  }
+
+## create species scores
+species.scores <- as.data.frame(scores(comb_NMDS_sp_all, "species"))  #Using the scores function from vegan to extract the species scores and convert to a data.frame
+species.scores$species <- rownames(species.scores)  # create a column of species, from the rownames of species.scores
+#head(species.scores)  #look at the data
+
+
+
+
+library(ggsci)
+library(ggrepel)
+sp_plot <- ggplot() + 
+  #geom_text(data=species.scores,aes(x=NMDS1,y=NMDS2,label=species),alpha=0.5) +  # add the species labels
+  geom_point(data=data.scores,aes(x=NMDS1,y=NMDS2,shape=System,colour=Dataset),size=3) + # add the point markers
+  geom_text_repel(data=data.scores,aes(x=NMDS1,y=NMDS2,label=site),size=3,vjust=0) +  # add the site labels
+  scale_color_jama()+ 
+  geom_path(data=df_ell, aes(x=NMDS1, y=NMDS2,colour=Dataset), size=1, linetype=2)+
+  coord_equal() +
+  theme(aspect.ratio = 1)+
+  theme_bw()+
+  theme(plot.margin = unit(c(0,0,0,0), "cm"))
+
+## p value
+
+nmds_mat_all_sp$grp <- treat1
+(ano = anosim(nmds_mat_all_sp[,1:(ncol(nmds_mat_all_sp)-2)], nmds_mat_all_sp$grp, distance = "bray", permutations = 9999))
+
+```
+### GE NMDS
+
+```{r NMDS ggplot - genus,fig.width=8}
+
+NMDS_data <- comb_NMDS_ge_all
+
+#treat1=c(rep("eDNA", 7),
+#        rep("known", 7))
+#treat2 <- c("Mesotrophic", "Eutrophic", "Oligotrophic", "Oligotrophic", "River", "River", "Eutrophic","Mesotrophic", "Eutrophic", "Oligotrophic", "Oligotrophic", "River", "River", "Eutrophic")
+
+data.scores <- as.data.frame(scores(NMDS_data))  #Using the scores function from vegan to extract the site scores and convert to a data.frame
+data.scores$site <- gsub(".*_", "" ,rownames(data.scores))   # create a column of site names, from the rownames of data.scores
+data.scores$site[c(6,7,14,15)] <- c("UMR-13", "UMR-19", "UMR-13", "UMR-19")
+data.scores$Dataset <- treat1  #  add the grp variable created earlier
+data.scores$System <- treat2  #  add the grp variable created earlier
+
+head(data.scores)  #look at the data
+
+
+
+#### create ellipse
+NMDS.mean=aggregate(data.scores[,1:2],list(group=treat1),mean)
+
+# function to create ellipse
+ veganCovEllipse<-function (cov, center = c(0, 0), scale = 1, npoints = 100) 
+  {
+    theta <- (0:npoints) * 2 * pi/npoints
+    Circle <- cbind(cos(theta), sin(theta))
+    t(center + scale * t(Circle %*% chol(cov)))
+  }
+
+
+df_ell <- data.frame()
+  for(g in unique(data.scores$Dataset)){
+    df_ell <- rbind(df_ell, cbind(as.data.frame(with(data.scores[data.scores$Dataset==g,],
+                    veganCovEllipse(cov.wt(cbind(NMDS1,NMDS2),wt=rep(1/length(NMDS1),length(NMDS1)))$cov,center=c(mean(NMDS1),mean(NMDS2)))))
+                    ,Dataset=g))
+  }
+
+## create species scores
+species.scores <- as.data.frame(scores(NMDS_data, "species"))  #Using the scores function from vegan to extract the species scores and convert to a data.frame
+species.scores$species <- rownames(species.scores)  # create a column of species, from the rownames of species.scores
+head(species.scores)  #look at the data
+
+
+
+ge_plot <- ggplot() + 
+  #geom_text(data=species.scores,aes(x=NMDS1,y=NMDS2,label=species),alpha=0.5) +  # add the species labels
+  geom_point(data=data.scores,aes(x=NMDS1,y=NMDS2,shape=System,colour=Dataset),size=3) + # add the point markers
+  geom_text_repel(data=data.scores,aes(x=NMDS1,y=NMDS2,label=site),size=3,vjust=0) +  # add the site labels
+  scale_color_jama()+ 
+  geom_path(data=df_ell, aes(x=NMDS1, y=NMDS2,colour=Dataset), size=1, linetype=2)+
+  coord_fixed(ratio=1.5)+
+  theme_bw()+
+  theme(#plot.margin = unit(c(0,0,0,0), "cm")
+    legend.position = "none")
+
+## p value
+
+nmds_mat_all_ge$grp <- treat1
+(ano = anosim(nmds_mat_all_ge[,1:(ncol(nmds_mat_all_ge)-2)], nmds_mat_all_ge$grp, distance = "bray", permutations = 9999))
+
+
+```
+### FA NMDS
+
+```{r NMDS ggplot - family,fig.width=8}
+
+NMDS_data <- comb_NMDS_fa_all
+
+# treat1=c(rep("eDNA", 7),
+#         rep("known", 7))
+# treat2 <- c("Mesotrophic", "Eutrophic", "Oligotrophic", "Oligotrophic", "River", "River", "Eutrophic","Mesotrophic", "Eutrophic", "Oligotrophic", "Oligotrophic", "River", "River", "Eutrophic")
+
+NMDS_data$ngrp
+
+data.scores <- as.data.frame(scores(NMDS_data))  #Using the scores function from vegan to extract the site scores and convert to a data.frame
+data.scores$site <- gsub(".*_", "" ,rownames(data.scores))   # create a column of site names, from the rownames of data.scores
+data.scores$site[c(6,7,14,15)] <- c("UMR-13", "UMR-19", "UMR-13", "UMR-19")
+data.scores$Dataset <- treat1  #  add the grp variable created earlier
+data.scores$System <- treat2  #  add the grp variable created earlier
+
+head(data.scores)  #look at the data
+
+
+
+#### create ellipse
+NMDS.mean=aggregate(data.scores[,1:2],list(group=treat1),mean)
+
+# function to create ellipse
+ veganCovEllipse<-function (cov, center = c(0, 0), scale = 1, npoints = 100) 
+  {
+    theta <- (0:npoints) * 2 * pi/npoints
+    Circle <- cbind(cos(theta), sin(theta))
+    t(center + scale * t(Circle %*% chol(cov)))
+  }
+
+
+df_ell <- data.frame()
+  for(g in unique(data.scores$Dataset)){
+    df_ell <- rbind(df_ell, cbind(as.data.frame(with(data.scores[data.scores$Dataset==g,],
+                    veganCovEllipse(cov.wt(cbind(NMDS1,NMDS2),wt=rep(1/length(NMDS1),length(NMDS1)))$cov,center=c(mean(NMDS1),mean(NMDS2)))))
+                    ,Dataset=g))
+  }
+
+## create species scores
+species.scores <- as.data.frame(scores(NMDS_data, "species"))  #Using the scores function from vegan to extract the species scores and convert to a data.frame
+species.scores$species <- rownames(species.scores)  # create a column of species, from the rownames of species.scores
+head(species.scores)  #look at the data
+
+
+
+fa_plot <- ggplot() + 
+  #geom_text(data=species.scores,aes(x=NMDS1,y=NMDS2,label=species),alpha=0.5) +  # add the species labels
+  geom_point(data=data.scores,aes(x=NMDS1,y=NMDS2,shape=System,colour=Dataset),size=3) + # add the point markers
+  geom_text_repel(data=data.scores,aes(x=NMDS1,y=NMDS2,label=site),size=3,vjust=0) +  # add the site labels
+  scale_color_jama()+ 
+  geom_path(data=df_ell, aes(x=NMDS1, y=NMDS2,colour=Dataset), size=1, linetype=2)+
+  coord_equal() +
+  theme_bw()+
+  theme(#plot.margin = unit(c(0,0,0,0), "cm")
+    legend.position = "none")
+
+
+## p value
+
+nmds_mat_all_fam$grp <- treat1
+(ano = anosim(nmds_mat_all_fam[,1:(ncol(nmds_mat_all_fam)-2)], nmds_mat_all_fam$grp, distance = "bray", permutations = 9999))
+
+
+```
+
+
+### Figure 2: NMDS plot
+
+```{r final figure, fig.height=10, fig.width=10}
+library(ggpubr)
+ggarrange(sp_plot, ge_plot, fa_plot, common.legend = T, nrow=3, ncol=1, legend = "right", align="h")
+
+
+#+theme(plot.margin(t = 0, r = 0, b = 0, l = 0, unit = "pt"))
+
+
+#ggsave("./figures/figure_2.tiff", height=8, width = 5)
+
+
+```
+
+## Obj 3. Relationship between life history traits and species detection 
+
+
+```{r overall life historhy differences, fig.height=12 }
+library(adegenet)
+LH <- read.csv("TableS_4.csv")
+LH[is.na(LH)] <- 0
+
+
+## novel eDNA detections
+
+lake <- NULL
+sp_known <- NULL
+sp_dna <- NULL
+ge_known <- NULL
+ge_dna <- NULL
+fa_known <- NULL
+fa_dna <- NULL
+
+successfulDet <- list()
+for(l in colnames(trad[5:13])){
+  norm <- comb_long %>% filter(data == "norm", Lake == l, value >0)
+  known <- comb_long %>% filter(data == "trad", Lake == l, value >0)
+  sp_dna <- intersect(unique(norm$species), unique(known$species))
+  tmp <- list(sp_dna)
+  successfulDet[[l]] <- tmp
+
+}
+
+successfulDet_vector <- unique(unlist(successfulDet))
+
+
+
+
+failedDet <- list()
+for(l in colnames(trad[5:13])){
+  norm <- comb_long %>% filter(data == "norm", Lake == l, value >0)
+  known <- comb_long %>% filter(data == "trad", Lake == l, value >0)
+  sp_dna <- setdiff(unique(known$species),unique(norm$species))
+  tmp <- list(sp_dna)
+  failedDet[[l]] <- tmp
+
+}
+failedDet_vector <- unique(unlist(failedDet))
+
+## make LH matrix
+
+success_mat <- LH %>% mutate(Scientific.Name= gsub(" ", ".", fixed=T,Scientific.Name)) %>% filter(Scientific.Name%in%successfulDet_vector) %>% mutate(grp = "successful")
+failed_mat <- LH %>% mutate(Scientific.Name= gsub(" ", ".", fixed=T,Scientific.Name)) %>% filter(!Scientific.Name%in%successfulDet_vector, Scientific.Name%in%failedDet_vector) %>% mutate(grp = "failed")
+
+dapc_data <- bind_rows(success_mat, failed_mat)
+rownames(dapc_data) <- dapc_data$Scientific.Name
+dapc1 <- dapc(dapc_data[,2:12],dapc_data$grp, n.pc=5, n.da=5)
+
+scatter(dapc1, legend = T)
+loadingplot(dapc1$var.contr, thresh = 0.01)
+
+#### lake specific graphs
+
+mk_DAPC_dat <- function(lake){
+  
+  sub_suc <- unlist(successfulDet[lake])
+  sub_fai <- unlist(failedDet[lake])
+  success_mat <- LH %>% mutate(Scientific.Name= gsub(" ", ".", fixed=T,Scientific.Name)) %>% filter(Scientific.Name%in%sub_suc) %>% mutate(grp = "successful")
+  failed_mat <- LH %>% mutate(Scientific.Name= gsub(" ", ".", fixed=T,Scientific.Name)) %>% filter(Scientific.Name%in%sub_fai) %>% mutate(grp = "failed")
+  dapc_data <- bind_rows(success_mat, failed_mat)
+  row.names(dapc_data) <- dapc_data$Scientific.Name
+  dapc(dapc_data[,2:12],as.character(dapc_data$grp), n.pc=5, n.da=2)
+  
+}
+  
+  
+## ggplot version
+
+
+# LD density plot
+DAPC_den <- function(x,lake){
+  my_df <- data.frame(x$ind.coord,grp=x$grp, spp=rownames(x$ind.coord))
+  LABS <- my_df %>% filter(LD1==min(LD1) | LD1==max(LD1))
+  LABS <- LABS %>% mutate(spp = paste(substr(LABS$spp, 1,1), gsub("^.*\\.","",LABS$spp), sep = ". "))
+  
+  ggplot()+
+  geom_density(data=my_df, aes(LD1, color = as.factor(grp), fill = as.factor(grp)),alpha = 0.5)+
+  geom_point(data=my_df, aes(x=LD1, y = 0, color = as.factor(grp)))+
+  theme_bw()+
+  scale_fill_jama(name = "",labels = c("Not Detected","Detected"))+
+  scale_color_jama(name = "", labels = c("Not Detected","Detected"))+
+  labs(x=" Discriminant Function 1")+
+  ggrepel::geom_label_repel(data=LABS, aes(x=LD1, y = 0.0, label=spp), fill = "white", size = 3.5, nudge_y =0.15, segment.alpha=.5, label.padding=.2, direction="both")+
+  ggtitle(lake)+
+  theme(text = element_text(size= 14),
+       legend.text = element_text(size =14))
+  
+}
+
+# LD loading plot
+DAPC_loading <- function(x){
+  as.data.frame(x$var.contr) %>% add_rownames(var = "Habitat") %>% 
+  ggplot( aes(x=Habitat, y = LD1))+
+  #geom_point()+
+  geom_bar(stat = "identity", width =.1)+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+}
+  
+  
+
+### create lake specific plots
+# overall
+den0 <- DAPC_den(dapc1, "All sites")+theme(legend.position = "none")
+
+
+# Crystal
+dat8 <- mk_DAPC_dat("Crystal")
+den8 <- DAPC_den(dat8,lake = "Crystal") + labs(x="")
+
+lod8 <- DAPC_loading(dat8)
+
+# McDermott
+dat1 <- mk_DAPC_dat("McDermott")
+den1 <- DAPC_den(dat1,lake = "McDermott") + labs(x="", y = "")
+lod1 <- DAPC_loading(dat1)
+
+# MenDota
+dat2 <- mk_DAPC_dat("Mendota")
+den2 <- DAPC_den(dat2, lake = "Mendota") + labs(x="")
+lod2 <- DAPC_loading(dat2)
+
+# Wingra
+dat3 <- mk_DAPC_dat("Wingra")
+den3 <- DAPC_den(dat3,lake = "Wingra") + labs(x="", y = "")
+lod3 <- DAPC_loading(dat3)
+
+# Sparkling
+dat4 <- mk_DAPC_dat("Sparkling")
+den4 <- DAPC_den(dat4,lake = "Sparkling") + labs(x="")
+lod4 <- DAPC_loading(dat4)
+
+# Trout
+dat5 <- mk_DAPC_dat("Trout")
+den5 <- DAPC_den(dat5,lake = "Trout") + labs(x="", y = "")
+lod5 <- DAPC_loading(dat5)
+
+# UMR-13
+dat6 <- mk_DAPC_dat("UMR_13")
+den6 <- DAPC_den(dat6,lake = "UMR-13")
+lod6 <- DAPC_loading(dat6)
+
+# UMR-19
+dat7 <- mk_DAPC_dat("UMR_19")
+den7 <- DAPC_den(dat7,lake = "UMR-19") + labs( y = "")
+lod7 <- DAPC_loading(dat7)
+
+ggarrange(den1, lod1,
+          den2, lod2,
+          den3, lod3,
+          den4, lod4,
+          den5, lod5,
+          den6, lod6,
+          den6, lod7,
+          ncol=2, nrow=7, legend = "top", common.legend = T)
+
+
+
+p1 <- ggarrange(den8,
+          den1,
+          den2,
+          den3,
+          den4,
+          den5,
+          den6,
+          den7,
+          ncol=2, nrow=4, legend = "none")
+
+
+ggarrange(den0, p1, ncol =1,nrow=2, heights=c(1.5,4), common.legend = T)
+
+#ggsave("./figures/figure_3.tiff", height = 12, width = 7)
+
+temp0 <- summary(dapc1)$assign.per.pop*100
+temp8 <- summary(dat8)$assign.per.pop*100
+temp1 <- summary(dat1)$assign.per.pop*100
+temp2 <- summary(dat2)$assign.per.pop*100
+temp3 <- summary(dat3)$assign.per.pop*100
+temp4 <- summary(dat4)$assign.per.pop*100
+temp5 <- summary(dat5)$assign.per.pop*100
+temp6 <- summary(dat6)$assign.per.pop*100
+temp7 <- summary(dat7)$assign.per.pop*100
+
+bind_rows(temp8,temp0, temp1, temp2, temp3, temp4, temp5, temp6 ,temp7)
+
+
+### evaluate loading scores and plot
+
+dat1_DF <- rownames_to_column(data.frame(dat1$var.contr), "hab" )%>% mutate(lake = "Crystal")
+top_n(dat1_DF, 2,LD1)
+
+dat2_DF <- rownames_to_column(data.frame(dat2$var.contr), "hab" )%>% mutate(lake = "McDermott")
+top_n(dat2_DF, 2,LD1)
+
+dat3_DF <- rownames_to_column(data.frame(dat3$var.contr), "hab" )%>% mutate(lake = "Wingra")
+top_n(dat3_DF, 2,LD1)
+
+dat4_DF <- rownames_to_column(data.frame(dat4$var.contr), "hab" )%>% mutate(lake = "Sparkling")
+top_n(dat4_DF, 2,LD1)
+
+
+dat5_DF <- rownames_to_column(data.frame(dat5$var.contr), "hab" )%>% mutate(lake = "Trout")
+top_n(dat5_DF, 2,LD1)
+
+
+dat6_DF <- rownames_to_column(data.frame(dat6$var.contr), "hab" )%>% mutate(lake = "UMR_13")
+top_n(dat6_DF, 2,LD1)
+
+dat7_DF <- rownames_to_column(data.frame(dat7$var.contr), "hab" ) %>% mutate(lake = "UMR_19")
+top_n(dat7_DF, 2,LD1)
+
+
+lods <- bind_rows(dat1_DF,
+          dat2_DF,
+          dat3_DF,
+          dat4_DF,
+          dat5_DF,
+          dat6_DF,
+          dat7_DF)
+
+
+lods$hab <- as.factor(lods$hab)
+levels(lods$hab) <- c("Bedrock", "Boulder", "Clay/Silt", "Cobble", "Gravel", "Woody Debris", "Muck", "Organic Debris", "Pelagic", "Prefer Lotic", "Sand", "Vegetation")
+
+ggplot(lods, aes(x = hab, y = LD1, fill = lake))+
+  geom_bar(stat= "identity", position="dodge")+
+  scale_fill_jama()+
+  theme_bw()+
+  labs(fill = "", x = "Habitat Preference", y="Variable Contribution")+
+  theme(text = element_text(size = 12),
+        legend.position = c(0.1,0.75))
+
+#ggsave("./figures/figure_4.tiff", width = 10, height = 5 )
+```
+
+

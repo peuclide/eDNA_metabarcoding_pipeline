@@ -1,0 +1,105 @@
+species,com_name,family,genus,Crystal,McDermott,Mendota,Sparkling,Trout,Trout_Bog,UMR_13,UMR_19,Wingra
+Alosa.chrysochloris,Skipjack Herring,Clupeidae,Alosa,0,0,0,0,0,0,0,0,0
+Ambloplites.rupestris,Rock Bass,Centrarchidae,Ambloplites,4,2,5,5,5,0,5,0,0
+Ameiurus.melas,Black Bullhead,Ictaluridae,Ameiurus,5,2,2,0,1,0,5,0,0
+Ameiurus.natalis,Yellow Bullhead,Ictaluridae,Ameiurus,4,0,3,0,2,0,5,0,5
+Ameiurus.nebulosus,Brown Bullhead,Ictaluridae,Ameiurus,2,1,0,0,0,0,5,0,0
+Amia.calva,Bowfin,Amiidae,Amia,0,0,1,0,0,0,5,1,0
+Ammocrypta.clara,Western Sand Darter,Percidae,Ammocrypta,0,0,0,0,0,0,3,0,0
+Aphredoderus.sayanus,Pirate Perch,Aphredoderidae,Aphredoderus,0,0,0,0,0,0,1,0,0
+Aplodinotus.grunniens,Freshwater Drum,Sciaenidae,Aplodinotus,0,0,5,0,0,0,5,1,1
+Carpiodes.carpio,River Carpsucker,Catostomidae,Carpiodes,0,0,0,0,0,0,5,1,0
+Carpiodes.cyprinus,Quillback,Catostomidae,Carpiodes,0,0,0,0,0,0,5,0,0
+Carpiodes.velifer,Highfin Carpsucker,Catostomidae,Carpiodes,0,0,0,0,0,0,5,0,0
+Catostomus.commersonii,White Sucker,Catostomidae,Catostomus,0,2,5,0,5,0,4,0,3
+Coregonus.artedi,Cisco,Salmonidae,Coregonus,0,0,2,0,5,0,0,0,0
+Coregonus.clupeaformis,Lake Whitefish,Salmonidae,Coregonus,0,0,0,0,5,0,0,0,0
+Cottus.bairdii,Mottled Sculpin,Cottidae,Cottus,0,0,1,0,4,0,0,0,0
+Crystallaria.asprella,Crystal Darter,Percidae,Crystallaria,0,0,0,0,0,0,2,0,0
+Ctenopharyngodon.idella,Grass Carp,Cyprinidae,Ctenopharyngodon,0,0,0,0,0,0,0,1,0
+Culaea.inconstans,Brook Stickleback,Gasterosteidae,Culaea,0,0,0,1,0,0,1,0,0
+Cycleptus.elongatus,Blue Sucker,Catostomidae,Cycleptus,0,0,0,0,0,0,4,0,0
+Cyprinella.lutrensis,Red Shiner,Cyprinidae,Cyprinella,0,0,0,0,0,0,0,1,0
+Cyprinella.spiloptera,Spotfin Shiner,Cyprinidae,Cyprinella,0,0,1,0,0,0,5,1,0
+Cyprinidae,Cyprinid Hybrid,Cyprinidae,Cyprinidae,0,0,0,0,0,0,0,1,0
+Cyprinus.carpio,Common Carp,Cyprinidae,Cyprinus,0,0,5,0,1,0,5,1,5
+Dorosoma.cepedianum,American Gizzard Shad,Clupeidae,Dorosoma,0,0,0,0,0,0,5,1,0
+Esox.americanus.vermiculatus,Grass Pickerel,Esocidae,Esox,0,0,0,1,0,0,2,0,0
+Esox.lucius,Northern Pike,Esocidae,Esox,0,2,5,0,1,0,5,1,3
+Esox.masquinongy,Muskellunge,Esocidae,Esox,0,2,0,3,1,0,0,0,2
+Etheostoma.asprigene,Mud Darter,Percidae,Etheostoma,0,0,0,0,0,0,4,1,0
+Etheostoma.exile,Iowa Darter,Percidae,Etheostoma,0,2,2,2,1,0,0,0,0
+Etheostoma.flabellare,Fantail Darter,Percidae,Etheostoma,1,0,0,0,1,0,0,0,0
+Etheostoma.nigrum,Johnny Darter,Percidae,Etheostoma,0,2,0,4,5,0,5,0,0
+Etheostoma.spectabile,Orangethroat Darter,Percidae,Etheostoma,0,0,0,0,0,0,0,0,0
+Fundulus.notatus,Blackstripe Topminnow,Fundulidae,Fundulus,0,0,0,0,0,0,0,1,0
+Gambusia.affinis,Western Mosquitofish,Poeciliidae,Gambusia,0,0,0,0,0,0,1,0,0
+Hiodon.tergisus,Mooneye,Hiodontidae,Hiodon,0,0,0,0,0,0,5,1,0
+Hybognathus.nuchalis,Mississippi Silvery,Cyprinidae,Hybognathus,0,0,0,0,0,0,2,1,0
+Hybopsis.amnis,Pallid Shiner,Cyprinidae,Hybopsis,0,0,0,0,0,0,5,0,0
+Hybopsis.dorsalis,Bigmouth Shiner,Cyprinidae,Hybopsis,0,0,0,0,0,0,1,0,0
+Hypentelium.nigricans,Northern Hogsucker,Catostomidae,Hypentelium,0,0,0,0,0,0,1,0,0
+Hypophthalmichthys.nobilis,Bighead Carp,Cyprinidae,Hypophthalmichthys,0,0,0,0,0,0,0,1,0
+Hypophthalmichthys.molitrix,Silver Carp,Cyprinidae,Hypophthalmichthys,0,0,0,0,0,0,0,1,0
+Ichthyomyzon.castaneus,Chestnut Lamprey,Petromyzontidae,Ichthyomyzon,0,0,0,0,0,0,1,0,0
+Ichthyomyzon.unicuspis,Silver Lamprey,Petromyzontidae,Ichthyomyzon,0,0,0,0,0,0,4,0,0
+Ictalurus.punctatus,Channel Catfish,Ictaluridae,Ictalurus,0,0,5,0,0,0,5,1,0
+Ictiobus.bubalus,Smallmouth Buffalo,Cyprinidae,Ictiobus,0,0,0,0,0,0,5,1,0
+Ictiobus.cyprinellus,Bigmouth Buffalo,Cyprinidae,Ictiobus,0,0,1,0,0,0,5,1,0
+Ictiobus.niger,Black Buffalo,Cyprinidae,Ictiobus,0,0,0,0,0,0,5,1,0
+Labidesthes.sicculus,Brook Silverside,Atherinopsidae,Labidesthes,0,0,5,0,0,0,5,1,5
+Lepisosteus.osseus,Longnose Gar,Lepisosteidae,Lepisosteus,0,0,4,0,0,0,5,1,5
+Lepisosteus.platostomus,Shortnose Gar,Lepisosteidae,Lepisosteus,0,0,0,0,0,0,5,1,0
+Lepomis,"Bluegill, Orange Spotted Sunfish Hybrid",Centrarchidae,Lepomis,0,0,0,0,0,0,1,0,0
+Lepomis,"Bluegill, Warmouth Hybrid",Centrarchidae,Lepomis,0,0,0,0,0,0,2,0,0
+Lepomis,Orange Spotted Sunfish,Centrarchidae,Lepomis,0,0,0,0,0,0,5,1,0
+Lepomis,"Pumpkinseed, Orange Spotted Sunfish Hybrid",Centrarchidae,Lepomis,0,0,0,0,0,0,1,0,0
+Lepomis.cyanellus,Green Sunfish,Centrarchidae,Lepomis,0,1,4,0,0,0,5,1,3
+Lepomis.gibbosus,Pumpkinseed,Centrarchidae,Lepomis,0,2,3,5,1,0,5,1,5
+Lepomis.gulosus,Warmouth,Centrarchidae,Lepomis,0,0,0,0,0,0,5,0,0
+Lepomis.macrochirus,Bluegill,Centrarchidae,Lepomis,2,2,5,5,2,0,5,1,5
+Luxilus.cornutus,Common Shiner,Cyprinidae,Luxilus,0,0,0,0,2,0,0,0,0
+Macrhybopsis.aestivalis,Speckled Chub,Cyprinidae,Macrhybopsis,0,0,0,0,0,0,5,0,0
+Macrhybopsis.storeriana,Silver Chub,Cyprinidae,Macrhybopsis,0,0,0,0,0,0,5,1,0
+Micropterus.dolomieu,Smallmouth Bass,Centrarchidae,Micropterus,1,2,5,5,5,0,5,1,1
+Micropterus.salmoides,Largemouth Bass,Centrarchidae,Micropterus,1,2,5,5,5,0,5,1,5
+Minytrema.melanops,Spotted Sucker,Catostomidae,Minytrema,0,0,0,0,0,0,5,0,0
+Morone,"Striped Bass, White Bass Hybrid",Moronidae,Morone,0,0,0,0,0,0,2,1,0
+Morone.chrysops,White Bass,Moronidae,Morone,0,0,5,0,0,0,5,1,0
+Morone.mississippiensis,Yellow Bass,Moronidae,Morone,0,0,3,0,0,0,5,0,1
+Moxostoma.anisurum,Silver Redhorse,Catostomidae,Moxostoma,0,0,0,0,0,0,5,0,0
+Moxostoma.erythrurum,Golden Redhorse,Catostomidae,Moxostoma,0,0,0,0,0,0,3,1,0
+Moxostoma.macrolepidotum,Shorthead Redhorse,Catostomidae,Moxostoma,0,0,0,0,2,0,5,1,0
+Moxostoma.valenciennesi,Greater Redhorse,Catostomidae,Moxostoma,0,0,0,0,3,0,0,0,0
+Notemigonus.crysoleucas,Golden Shiner,Cyprinidae,Notemigonus,0,2,1,1,4,0,5,1,5
+Notropis.atherinoides,Emerald Shiner,Cyprinidae,Notropis,2,0,0,0,1,0,5,1,0
+Notropis.blennius,River Shiner,Cyprinidae,Notropis,0,0,0,0,0,0,5,1,0
+Notropis.heterolepis,Blacknose Shiner,Cyprinidae,Notropis,0,0,1,2,1,0,0,0,0
+Notropis.hudsonius,Spottail Shiner,Cyprinidae,Notropis,0,1,1,0,0,0,5,1,0
+Notropis.stramineus,Sand Shiner,Cyprinidae,Notropis,0,0,0,0,0,0,0,1,0
+Notropis.texanus,Weed Shiner,Cyprinidae,Notropis,0,0,0,0,0,0,5,0,0
+Notropis.volucellus,Mimic Shiner,Cyprinidae,Notropis,2,0,0,5,5,0,5,0,0
+Notropis.wickliffi,Channel Shiner,Cyprinidae,Notropis,0,0,0,0,0,0,0,1,0
+Noturus.flavus,Stonecat,Cyprinidae,Noturus,0,0,0,0,0,0,3,0,0
+Noturus.gyrinus,Tadpole Madtom,Cyprinidae,Noturus,0,0,0,0,0,0,5,0,0
+Noturus.nocturnus,Freckled Madtom,Cyprinidae,Noturus,0,0,0,0,0,0,1,0,0
+Osmerus.mordax,Rainbow Smelt,Osmeridae,Osmerus,5,0,0,5,0,0,0,0,0
+Perca.flavescens,Yellow Perch,Percidae,Perca,5,2,5,5,5,0,5,1,5
+Percina.caprodes,Logperch,Percidae,Percina,0,0,5,1,4,0,5,1,0
+Percina.phoxocephala,Slenderhead Darter,Percidae,Percina,0,0,0,0,0,0,3,0,0
+Percina.shumardi,River Darter,Percidae,Percina,0,0,0,0,0,0,5,0,0
+Percopsis.omiscomaycus,Trout-Perch,Percopsidae,Percopsis,0,0,0,0,5,0,0,0,0
+Pimephales.notatus,Bluntnose Minnow,Cyprinidae,Pimephales,1,2,5,5,5,0,2,0,5
+Pimephales.promelas,Fathead Minnow,Cyprinidae,Pimephales,5,0,0,0,0,0,3,0,1
+Pimephales.vigilax,Bullhead Minnow,Cyprinidae,Pimephales,0,0,0,0,0,0,5,1,0
+Polyodon.spathula,Paddlefish,Polyodontidae,Polyodon,0,0,0,0,0,0,0,1,0
+Pomoxis.annularis,White Crappie,Centrarchidae,Pomoxis,0,0,0,0,0,0,5,1,0
+Pomoxis.nigromaculatus,Black Crappie,Centrarchidae,Pomoxis,0,2,5,0,3,0,5,0,5
+Pungitius.pungitius,Ninespine Stickleback,Gasterosteidae,Pungitius,0,0,0,1,0,0,0,0,0
+Pylodictis.olivaris,Flathead Catfish,Ictaluridae,Pylodictis,0,0,0,0,0,0,5,1,0
+Salvelinus.namaycush,Lake Trout,Salmonidae,Salvelinus,0,0,0,0,4,0,0,0,0
+Sander.canadensis,Sauger,Percidae,Sander,0,0,0,0,0,0,5,1,0
+Sander.vitreus,Walleye,Percidae,Sander,0,2,5,5,5,0,5,1,0
+Scaphirhynchus.platorynchus,Shovelnose Sturgeon,Acipenseridae,Scaphirhynchus,0,0,0,0,0,0,5,0,0
+Semotilus.atromaculatus,Creek Chub,Cyprinidae,Semotilus,0,0,0,0,1,0,2,0,0
+Umbra.limi,Central Mud Minnow,Umbridae,Umbra,0,0,0,0,0,5,2,0,2
